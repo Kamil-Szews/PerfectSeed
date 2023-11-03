@@ -7,7 +7,7 @@
     <UserSecretsId>b573c947-69e1-46f9-854c-20067143e1a1</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
   </PropertyGroup>
-
+// aaa
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
   </ItemGroup>
