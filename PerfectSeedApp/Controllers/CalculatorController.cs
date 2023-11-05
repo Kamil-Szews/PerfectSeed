@@ -20,8 +20,7 @@ namespace PerfectSeedApp.Controllers
 
         public IActionResult AddSeed()
         {
-            var objCalculatorList = _db.Calculator.ToList();
-            return View(objCalculatorList);
+            return View();
         }
 
         public IActionResult Calculate()
