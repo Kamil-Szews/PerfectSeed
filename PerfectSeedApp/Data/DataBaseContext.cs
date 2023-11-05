@@ -10,6 +10,6 @@ namespace PerfectSeedApp.Data
             
         }
 
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Calculator> Calculator { get; set; }
     }
 }

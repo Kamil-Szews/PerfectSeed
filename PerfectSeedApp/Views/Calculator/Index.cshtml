@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Calculator>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index Calculator</h1>
+
+<div class="container p-3">
+    <div class="row p-4">
+        <div class="col-6">
+
+        </div>
+        <div class="col-6">
+
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <th>
+            Seed Id
+        </th>
+        <th>
+            Your Seeds
+        </th>
+    </thead>
+    <tbody>
+        @foreach(var obj in Model)
+        {
+            <tr>
+                <td width="30%">
+                    @obj.Id
+                </td>
+                <td width="30%">
+                    @obj.Seed
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
