@@ -17,5 +17,17 @@ namespace PerfectSeedApp.Controllers
             var objCalculatorList = _db.Calculator.ToList();
             return View(objCalculatorList);
         }
+
+        public IActionResult AddSeed()
+        {
+            var objCalculatorList = _db.Calculator.ToList();
+            return View(objCalculatorList);
+        }
+
+        public IActionResult Calculate()
+        {
+            var objCalculatorList = _db.Calculator.ToList();
+            return View(objCalculatorList);
+        }
     }
 }
