@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
 using PerfectSeedApp.Data;
 using PerfectSeedApp.Models;
 
@@ -36,9 +37,17 @@ namespace PerfectSeedApp.Controllers
             return View();
         }
 
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete()
         {
-            return View();
+            foreach(var obj in _db.Calculator)
+            {
+                _db.Calculator.Remove(obj);
+            }
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
