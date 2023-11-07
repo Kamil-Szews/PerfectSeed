@@ -10,6 +10,7 @@ namespace PerfectSeedApp.Controllers
     {
         private readonly DataBaseContext _db;
         private IList<Calculator> _calculators;
+        
         public CalculatorController(DataBaseContext db)
         {
             _db = db;
@@ -36,7 +37,7 @@ namespace PerfectSeedApp.Controllers
         {
             return View();
         }
-
+        /*
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -45,9 +46,10 @@ namespace PerfectSeedApp.Controllers
             foreach(var obj in _db.Calculator)
             {
                 _db.Calculator.Remove(obj);
+                _db.SaveChanges();
             }
-            _db.SaveChanges();
             return RedirectToAction("Index");
         }
+        */
     }
 }
