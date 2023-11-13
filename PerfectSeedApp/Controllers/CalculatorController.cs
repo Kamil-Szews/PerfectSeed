@@ -30,7 +30,7 @@ namespace PerfectSeedApp.Controllers
         public IActionResult Index()
         {
             _calculators = _db.Calculator.ToList();
-            return View(_calculators ?? new List<Calculator>());
+            return View(_calculators);
         }
 
         //POST
@@ -38,14 +38,13 @@ namespace PerfectSeedApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index([FromForm] Calculator obj)
         {
-            if(obj.Seed == null)
+            if(obj.Seed != null)
             {
+                _db.Calculator.Add(obj);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            //var calculator = new Calculator { Seed = newSeed };
-            _db.Calculator.Add(obj);
-            _db.SaveChanges();
-            return View(_calculators);
+            return RedirectToAction("Index");
         }
 
         #endregion
@@ -61,17 +60,12 @@ namespace PerfectSeedApp.Controllers
 
         #region Delete
 
-        public IActionResult Delete()
-        {
-            return View(_calculators);
-        }
-
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteAll()
         {
-            if(_calculators.First().Seed == null)
+            if(_calculators == null)
             {
                 return RedirectToAction("Index");
             }
