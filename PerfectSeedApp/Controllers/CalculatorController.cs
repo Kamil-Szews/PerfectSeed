@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NuGet.Versioning;
 using PerfectSeedApp.Data;
 using PerfectSeedApp.Models;
+using PerfectSeedApp.Services;
 
 namespace PerfectSeedApp.Controllers
 {
@@ -10,16 +11,19 @@ namespace PerfectSeedApp.Controllers
     {
         #region Fields and Properties
 
+        private readonly PerfectSeedService _perfectSeedService;
         private readonly DataBaseContext _db;
         private IList<Calculator> _calculators;
+
 
         #endregion
 
         #region Constructors
 
-        public CalculatorController(DataBaseContext db)
+        public CalculatorController(DataBaseContext db, PerfectSeedService perfectSeedService)
         {
             _db = db;
+            _perfectSeedService = perfectSeedService;
         }
 
         #endregion
@@ -36,10 +40,11 @@ namespace PerfectSeedApp.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index([FromForm] Calculator obj)
+        public IActionResult AddNextSeed([FromForm] Calculator obj)
         {
-            if(obj.Seed != null)
+            if(obj.Seed != null && !_perfectSeedService.IsSeedValid(obj))
             {
+                obj.Seed = obj.Seed.ToUpper();
                 _db.Calculator.Add(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -63,19 +68,40 @@ namespace PerfectSeedApp.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteAll()
+        public IActionResult DeleteAll(string calculators)
         {
-            if(_calculators == null)
+            if(string.IsNullOrEmpty(calculators))
             {
                 return RedirectToAction("Index");
             }
 
-            foreach(var obj in _calculators)
+            _calculators = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<Calculator>>(calculators);
+
+            foreach (var obj in _calculators)
             {
                 _db.Calculator.Remove(obj);
-                _db.SaveChanges();
             }
-            
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteOneSeed(string calculators)
+        {
+            if (string.IsNullOrEmpty(calculators))
+            {
+                return RedirectToAction("Index");
+            }
+
+            _calculators = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<Calculator>>(calculators);
+
+            foreach (var obj in _calculators)
+            {
+                _db.Calculator.Remove(obj);
+            }
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 

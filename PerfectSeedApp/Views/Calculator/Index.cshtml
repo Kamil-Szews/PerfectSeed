@@ -11,7 +11,7 @@
         <div class="col-5">
             <div class="d-flex align-items-center">
                 <!-- Button "Add next Seed" -->
-                <form asp-controller="Calculator" asp-action="Index" method="post" class="d-flex align-items-center">
+                <form asp-controller="Calculator" asp-action="AddNextSeed" method="post" class="d-flex align-items-center">
                     <div class="input-group">
                         <button type="submit" class="btn btn-primary" style="width: 180px">
                             <i class="bi bi-database-add"></i>&nbsp; Add next Seed
@@ -32,6 +32,7 @@
 
                 <!-- Button "Delete" -->
                 <form asp-controller="Calculator" asp-action="DeleteAll" method="post">
+                    <input type="hidden" name="calculators" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)" />
                     <button type="submit" class="btn btn-primary" style="width: 200px">
                         <i class="bi bi-trash3"></i>&nbsp; Delete all seeds
                     </button>
@@ -44,9 +45,6 @@
 <table class="table table-bordered table-striped" style="width:100%">
     <thead>
         <th>
-            Seed Id
-        </th>
-        <th>
             Your Seeds
         </th>
     </thead>
@@ -54,11 +52,14 @@
         @foreach(var obj in Model)
         {
             <tr>
-                <td width="50%">
-                    @obj.Id
-                </td>
-                <td width="50%">
+                <td width="30%">
                     @obj.Seed
+                    <form asp-controller="Calculator" asp-action="DeleteOneSeed" method="post">
+                        <input type="hidden" name="calculators" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)" />
+                        <button type="submit" class="btn btn-primary" style="width: 200px">
+                            <i class="bi bi-trash3"></i>&nbsp;
+                        </button>
+                    </form>
                 </td>
             </tr>
         }
