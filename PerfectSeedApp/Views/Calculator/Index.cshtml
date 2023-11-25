@@ -1,4 +1,4 @@
-﻿@model IList<Calculator>
+﻿@model IList<Seed>
 
 @{
     ViewData["Title"] = "Index";
@@ -58,7 +58,7 @@
         {
             <tr>
                 <td width="30%">
-                    @obj.Seed
+                    @obj.SeedSequence
                     
                     <!-- Button "DeleteOneSeed" -->
                     <form asp-controller="Calculator" asp-action="DeleteOneSeed" method="post">

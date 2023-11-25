@@ -22,18 +22,18 @@ namespace PerfectSeedApp.Services
             return false;
         }
 
-        public bool IsSeedValid(Calculator calculator)
+        public bool IsSeedValid(Seed seed)
         {
-            if(calculator.Seed.Length != 6) 
+            if(seed.SeedSequence.Length != 6) 
                 return false;
 
-            bool allValid = calculator.Seed.ToUpper().All(x => x == 'H' || x == 'G' || x == 'Y' || x == 'X' || x == 'W');
+            bool allValid = seed.SeedSequence.ToUpper().All(x => x == 'H' || x == 'G' || x == 'Y' || x == 'X' || x == 'W');
             return allValid;
         }
 
-        public string CalculateBestPossibleSeed(IList<Calculator> calculators)
+        public string CalculatePerfectSeed(IList<Seed> seeds)
         {
-            foreach(Calculator calculator in calculators)
+            foreach(Seed seed in seeds)
             {
                 
             }

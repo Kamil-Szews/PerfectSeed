@@ -2,11 +2,11 @@
 
 namespace PerfectSeedApp.Models
 {
-    public class Calculator
+    public class Seed
     {
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Seed { get; set; }
+        public string SeedSequence { get; set; }
     }
 }
