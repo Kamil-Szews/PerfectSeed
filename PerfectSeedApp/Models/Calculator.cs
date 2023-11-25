@@ -8,11 +8,5 @@ namespace PerfectSeedApp.Models
         public int Id { get; set; }
         [Required]
         public string Seed { get; set; }
-
-        private int Length()
-        {
-
-            return 0;
-        }
     }
 }

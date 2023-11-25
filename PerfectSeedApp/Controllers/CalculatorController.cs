@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NuGet.Versioning;
 using PerfectSeedApp.Data;
 using PerfectSeedApp.Models;
@@ -28,67 +29,47 @@ namespace PerfectSeedApp.Controllers
 
         #endregion
 
-        #region Index
+        #region Index View
 
-        //GET
         public IActionResult Index()
         {
             _calculators = _db.Calculator.ToList();
+
             return View(_calculators);
         }
 
-        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddNextSeed([FromForm] Calculator obj)
         {
-            if(obj.Seed != null && !_perfectSeedService.IsSeedValid(obj))
+            if(obj.Seed != null && _perfectSeedService.IsSeedValid(obj))
             {
                 obj.Seed = obj.Seed.ToUpper();
                 _db.Calculator.Add(obj);
                 _db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+
             return RedirectToAction("Index");
         }
 
-        #endregion
-
-        #region Calculate
-
-        public IActionResult Calculate()
+        public IActionResult Calculate(string calculators)
         {
-            return RedirectToAction("Index");
-        }
-
-        #endregion
-
-        #region Delete
-
-        //POST
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteAll(string calculators)
-        {
-            if(string.IsNullOrEmpty(calculators))
+            if (string.IsNullOrEmpty(calculators))
             {
                 return RedirectToAction("Index");
             }
 
             _calculators = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<Calculator>>(calculators);
+            var x = _perfectSeedService.CalculateBestPossibleSeed(_calculators);
 
-            foreach (var obj in _calculators)
-            {
-                _db.Calculator.Remove(obj);
-            }
-            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteOneSeed(string calculators)
+        public IActionResult DeleteAll(string calculators)
         {
             if (string.IsNullOrEmpty(calculators))
             {
@@ -102,9 +83,22 @@ namespace PerfectSeedApp.Controllers
                 _db.Calculator.Remove(obj);
             }
             _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteOneSeed(string obj)
+        {
+            var CalculatorObject = Newtonsoft.Json.JsonConvert.DeserializeObject<Calculator>(obj);
+            _db.Calculator.Remove(CalculatorObject);
+            _db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
         #endregion
+
     }
 }

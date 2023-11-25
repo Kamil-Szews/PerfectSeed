@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PerfectSeedApp.Data;
+using PerfectSeedApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+builder.Services.AddScoped<PerfectSeedService>(); 
 
 var app = builder.Build();
 

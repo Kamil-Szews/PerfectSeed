@@ -10,6 +10,7 @@
     <div class="row p-0">
         <div class="col-5">
             <div class="d-flex align-items-center">
+              
                 <!-- Button "Add next Seed" -->
                 <form asp-controller="Calculator" asp-action="AddNextSeed" method="post" class="d-flex align-items-center">
                     <div class="input-group">
@@ -19,24 +20,28 @@
                         <input type="text" name="Seed" class="form-control" placeholder="Enter Seed" style="width: 125px" required />
                     </div>
                 </form>
+
             </div>
         </div>
         <div class="col-7">
             <div class="d-flex align-items-center">
+               
                 <!-- Button "Calculate" -->
                 <form asp-controller="Calculator" asp-action="Calculate" method="post" >
+                    <input type="hidden" name="calculators" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)" />
                     <button type="submit" class="btn btn-primary" style="width: 140px">
                         <i class="bi bi-calculator"></i>&nbsp; Calculate
                     </button>
                 </form>
 
-                <!-- Button "Delete" -->
+                <!-- Button "DeleteAll" -->
                 <form asp-controller="Calculator" asp-action="DeleteAll" method="post">
                     <input type="hidden" name="calculators" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)" />
                     <button type="submit" class="btn btn-primary" style="width: 200px">
                         <i class="bi bi-trash3"></i>&nbsp; Delete all seeds
                     </button>
                 </form>
+
             </div>
         </div>
     </div>
@@ -54,12 +59,15 @@
             <tr>
                 <td width="30%">
                     @obj.Seed
+                    
+                    <!-- Button "DeleteOneSeed" -->
                     <form asp-controller="Calculator" asp-action="DeleteOneSeed" method="post">
-                        <input type="hidden" name="calculators" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)" />
-                        <button type="submit" class="btn btn-primary" style="width: 200px">
+                        <input type="hidden" name="obj" value="@Newtonsoft.Json.JsonConvert.SerializeObject(obj)" />
+                        <button type="submit" class="btn btn-primary" style="width: 25px; height: 45px; margin: 0 auto;">
                             <i class="bi bi-trash3"></i>&nbsp;
                         </button>
                     </form>
+
                 </td>
             </tr>
         }
