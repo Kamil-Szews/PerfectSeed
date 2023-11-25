@@ -33,8 +33,7 @@ namespace PerfectSeedApp.Controllers
 
         public IActionResult Index()
         {
-            _seeds = _db.Calculator.ToList();
-
+            _seeds = _db.SeedsTable.ToList();
             return View(_seeds);
         }
 
@@ -42,12 +41,11 @@ namespace PerfectSeedApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddNextSeed([FromForm] Seed obj)
         {
-            if(obj.SeedSequence != null && _perfectSeedService.IsSeedValid(obj))
+            if (obj.SeedSequence != null && _perfectSeedService.IsSeedValid(obj))
             {
                 obj.SeedSequence = obj.SeedSequence.ToUpper();
-                _db.Calculator.Add(obj);
+                _db.SeedsTable.Add(obj);
                 _db.SaveChanges();
-
                 return RedirectToAction("Index");
             }
 
@@ -63,7 +61,6 @@ namespace PerfectSeedApp.Controllers
 
             _seeds = Newtonsoft.Json.JsonConvert.DeserializeObject<IList<Seed>>(seeds);
             var x = _perfectSeedService.CalculatePerfectSeed(_seeds);
-
             return RedirectToAction("Index");
         }
 
@@ -80,10 +77,10 @@ namespace PerfectSeedApp.Controllers
 
             foreach (var obj in _seeds)
             {
-                _db.Calculator.Remove(obj);
+                _db.SeedsTable.Remove(obj);
             }
-            _db.SaveChanges();
 
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -91,10 +88,9 @@ namespace PerfectSeedApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteOneSeed(string obj)
         {
-            var CalculatorObject = Newtonsoft.Json.JsonConvert.DeserializeObject<Seed>(obj);
-            _db.Calculator.Remove(CalculatorObject);
+            var seed = Newtonsoft.Json.JsonConvert.DeserializeObject<Seed>(obj);
+            _db.SeedsTable.Remove(seed);
             _db.SaveChanges();
-
             return RedirectToAction("Index");
         }
 

@@ -11,8 +11,8 @@ using PerfectSeedApp.Data;
 namespace PerfectSeedApp.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20231105191448_addCalculator")]
-    partial class addCalculator
+    [Migration("20231125223515_AddSeedsToDataBase")]
+    partial class AddSeedsToDataBase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace PerfectSeedApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PerfectSeedApp.Models.Calculator", b =>
+            modelBuilder.Entity("PerfectSeedApp.Models.Seed", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,13 +32,13 @@ namespace PerfectSeedApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Seed")
+                    b.Property<string>("SeedSequence")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Calculator");
+                    b.ToTable("SeedsTable");
                 });
 #pragma warning restore 612, 618
         }

@@ -10,6 +10,6 @@ namespace PerfectSeedApp.Data
             
         }
 
-        public DbSet<Seed> Calculator { get; set; }
+        public DbSet<Seed> SeedsTable { get; set; }
     }
 }

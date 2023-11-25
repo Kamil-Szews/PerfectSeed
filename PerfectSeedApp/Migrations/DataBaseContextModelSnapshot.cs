@@ -21,7 +21,7 @@ namespace PerfectSeedApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PerfectSeedApp.Models.Calculator", b =>
+            modelBuilder.Entity("PerfectSeedApp.Models.Seed", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -29,13 +29,13 @@ namespace PerfectSeedApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Seed")
+                    b.Property<string>("SeedSequence")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Calculator");
+                    b.ToTable("SeedsTable");
                 });
 #pragma warning restore 612, 618
         }
