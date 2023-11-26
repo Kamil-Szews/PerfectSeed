@@ -17,7 +17,7 @@
                         <button type="submit" class="btn btn-primary" style="width: 180px">
                             <i class="bi bi-database-add"></i>&nbsp; Add next Seed
                         </button>
-                        <input type="text" name="Seed" class="form-control" placeholder="Enter Seed" style="width: 125px" required />
+                        <input type="text" name="sequence" class="form-control" placeholder="Enter Seed" style="width: 125px" required />
                     </div>
                 </form>
 
@@ -28,7 +28,7 @@
                
                 <!-- Button "Calculate" -->
                 <form asp-controller="Calculator" asp-action="Calculate" method="post" >
-                    <input type="hidden" name="calculators" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)" />
+                    <input type="hidden" name="seeds" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)" />
                     <button type="submit" class="btn btn-primary" style="width: 140px">
                         <i class="bi bi-calculator"></i>&nbsp; Calculate
                     </button>
@@ -36,7 +36,7 @@
 
                 <!-- Button "DeleteAll" -->
                 <form asp-controller="Calculator" asp-action="DeleteAll" method="post">
-                    <input type="hidden" name="calculators" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)" />
+                    <input type="hidden" name="seeds" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)" />
                     <button type="submit" class="btn btn-primary" style="width: 200px">
                         <i class="bi bi-trash3"></i>&nbsp; Delete all seeds
                     </button>

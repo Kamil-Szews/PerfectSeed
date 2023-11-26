@@ -39,16 +39,17 @@ namespace PerfectSeedApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddNextSeed([FromForm] Seed obj)
+        public IActionResult AddNextSeed([FromForm] string sequence)
         {
-            if (obj.SeedSequence != null && _perfectSeedService.IsSeedValid(obj))
+            if (sequence != null && _perfectSeedService.IsSeedValid(sequence))
             {
-                obj.SeedSequence = obj.SeedSequence.ToUpper();
-                _db.SeedsTable.Add(obj);
+                Seed seed = new Seed();
+                seed.SeedSequence = sequence.ToUpper();
+                _db.SeedsTable.Add(seed);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+           
             return RedirectToAction("Index");
         }
 

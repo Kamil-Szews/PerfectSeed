@@ -31,6 +31,15 @@ namespace PerfectSeedApp.Services
             return allValid;
         }
 
+        public bool IsSeedValid(string sequence)
+        {
+            if (sequence.Length != 6)
+                return false;
+
+            bool allValid = sequence.ToUpper().All(x => x == 'H' || x == 'G' || x == 'Y' || x == 'X' || x == 'W');
+            return allValid;
+        }
+
         public string CalculatePerfectSeed(IList<Seed> seeds)
         {
             foreach(Seed seed in seeds)
