@@ -8,13 +8,13 @@ namespace PerfectSeedApp.Services
 {
     public class PerfectSeedService
     {
-        private readonly HashSet<string> perfectSeeds = GenerateCombinationsService.GenerateStringCombinations(
+        private static readonly HashSet<string> perfectSeeds = GenerateCombinationsService.GenerateStringCombinations(
             new char[] { 'G', 'G', 'G', 'Y', 'Y', 'Y' },
             new char[] { 'G', 'G', 'G', 'G', 'Y', 'Y' },
             new char[] { 'G', 'G', 'Y', 'Y', 'Y', 'Y' }
             );
 
-        private readonly Dictionary<char, double> seedValue = new Dictionary<char, double>
+        private static readonly Dictionary<char, double> seedValue = new Dictionary<char, double>
         {
             { 'X', 0.9 },
             { 'W', 0.9 },
@@ -23,7 +23,7 @@ namespace PerfectSeedApp.Services
             { 'G', 0.5 }
         };
 
-        private bool IsPerfect(string seed)
+        private static bool IsPerfect(string seed)
         {
             foreach(var perfectSeed in perfectSeeds)
             {
@@ -65,19 +65,20 @@ namespace PerfectSeedApp.Services
         public string CalculatePerfectSeed(IList<Seed> seeds)
         {
             List<string> currentSeeds = new List<string>();
+            HashSet<string> allCombinations = new HashSet<string>();
 
-            for(int i = 2; i < seeds.Count; i++)
+            for(int combinationLength = 2; combinationLength < seeds.Count; combinationLength++)
             {
-                GenerateCombinations(seeds, i, currentSeeds, 0);
+                GenerateCombinations(seeds, combinationLength, currentSeeds);
                 currentSeeds.Clear();
             }
             
             return "xxxxxx";
         }
 
-        static void GenerateCombinations(IList<Seed> seeds, int m, List<string> currentSeeds, int startIndex)
+        static void GenerateCombinations(IList<Seed> seeds, int combinationLength, List<string> currentSeeds, int startIndex = 0)
         {
-            if (currentSeeds.Count == m)
+            if (currentSeeds.Count == combinationLength)
             {
                 ProcessCombination(currentSeeds);
                 return;
@@ -88,9 +89,9 @@ namespace PerfectSeedApp.Services
                 if (!currentSeeds.Contains(seeds[i].SeedSequence))
                 {
                     currentSeeds.Add(seeds[i].SeedSequence);
-                    if (currentSeeds.Count <= m)
+                    if (currentSeeds.Count <= combinationLength)
                     {
-                        GenerateCombinations(seeds, m, currentSeeds, i + 1);
+                        GenerateCombinations(seeds, combinationLength, currentSeeds, i + 1);
                     }
                     currentSeeds.RemoveAt(currentSeeds.Count - 1);
                 }
@@ -99,18 +100,45 @@ namespace PerfectSeedApp.Services
 
         static void ProcessCombination(List<string> seeds)
         {
-            Dictionary<char, double>[][] seedTable = new Dictionary<char, double>[6][];
-
-            int iterator = 0;
-            foreach (var seed in seeds)
+            // tab size: 6 x 5, every row is for different gene, Gene order: G Y H W X
+            double[][] tab = new double[6][];
+            char[] result = new char[6];
+            foreach(var seed in seeds)
             {
-                seedTable[iterator] = new Dictionary<char, double>[6];
-                for (int i = 0; i < 6; i++)
+                for (int j = 0; j < 6; j++)
                 {
-                    seedTable[iterator][i] = new Dictionary<char, double>();
-                    seedTable[iterator][i].Add(seed[i], 1.0);
+                    switch(seed[j])
+                    {
+                        case 'G':
+                            tab[j][0] += seedValue['G'];
+                            break;
+
+                        case 'Y':
+                            tab[j][1] += seedValue['Y'];
+                            break;
+
+                        case 'H':
+                            tab[j][2] += seedValue['H'];
+                            break;
+
+                        case 'W':
+                            tab[j][3] += seedValue['W'];
+                            break;
+
+                        case 'X':
+                            tab[j][4] += seedValue['X'];
+                            break;
+                    }
                 }
-                iterator++;
+            }
+            for(int i = 0; i < 6; i++)
+            {
+               // result[i] = tab[i].Where(row => row == ;
+            }
+
+            if (IsPerfect(result.ToString()))
+            {
+
             }
         }
     }
